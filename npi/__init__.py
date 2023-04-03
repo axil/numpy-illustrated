@@ -1,4 +1,6 @@
 import zipfile
+from numpy.lib.recfunctions import unstructured_to_structured as u2s, structured_to_unstructured as s2u
+from itertools import permutations, product
 
 import numpy as np
 from numpy.compat import (
@@ -94,3 +96,56 @@ class savez:
     def __exit__(self, *args):
         self.zipf.close()
 
+def sort(a, by=None, axis=0, ascending=True):
+    if isinstance(by, (list, tuple)):
+        order = [f'f{field}' for field in by]
+    elif isinstance(by, int):
+        order = f'f{by}'
+    elif by is None:
+        order = None
+    else:
+        raise TypeError(f'Unsupported `by` type: {type(by)}')
+        
+    if isinstance(ascending, (list, tuple, np.ndarray)):
+        if len(ascending) == 1:
+            asc = bool(ascending[0])
+        elif len(ascending) == len(by):
+            asc = list(ascending)
+        else:
+            raise ValueError(f'Length of `ascending`({len(ascending)}) != length of `by`({len(by)}).')
+    elif isinstance(ascending, (bool, int)):
+        asc = bool(ascending)
+        
+    # invert columns
+    a = np.array(a)
+    if asc is False:
+        a *= -1
+    elif asc is True:
+        pass
+    else:
+        to_negate = []
+        for field, asc1 in zip(by, asc):
+            if asc1 is False:
+                to_negate.append(field)
+        a[:, to_negate] *= -1
+        
+    # sort
+    if a.ndim > 1:
+        s = u2s(a)
+        s.sort(order = order)
+        u = s2u(s)
+    elif a.ndim == 1:
+        a.sort()
+        u = a
+    else:
+        pass
+    
+    # invert columns back
+    if asc is False:
+        u *= -1
+    elif asc is True:
+        pass
+    else:
+        if to_negate:
+            u[:, to_negate] *= -1
+    return u
