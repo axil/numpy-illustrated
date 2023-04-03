@@ -6,6 +6,35 @@ from numpy.compat import (
     pickle
     )
 
+def argmin(a):
+    if not isinstance(a, np.ndarray):
+        a = np.array(a)
+    if a.ndim > 1:
+        return np.unravel_index(np.argmin(a), a.shape)
+    else:
+        return np.argmin(a)
+
+def argmax(a):
+    if not isinstance(a, np.ndarray):
+        a = np.array(a)
+    if a.ndim > 1:
+        return np.unravel_index(np.argmax(a), a.shape)
+    else:
+        return np.argmax(a)
+
+def T(x):
+    x = np.array(x)
+    if x.ndim == 1:
+        return x[:, None]
+    elif x.ndim == 2:
+        if x.shape[1] == 1:
+            return x[:,0]
+        else:
+            return x.T
+    else:
+        return np.swapaxes(x, x.ndim-2, x.ndim-1)
+
+
 def zipfile_factory(file, *args, **kwargs):
     """
     Create a ZipFile.
@@ -64,3 +93,4 @@ class savez:
         
     def __exit__(self, *args):
         self.zipf.close()
+
