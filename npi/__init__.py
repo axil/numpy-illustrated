@@ -149,3 +149,9 @@ def sort(a, by=None, axis=0, ascending=True):
         if to_negate:
             u[:, to_negate] *= -1
     return u
+
+def irange(start, stop, step):
+    n = (stop-start)/step
+    if abs(int(n) - n) > 1e-6:
+        raise ValueError('(stop-start) must be divisible by step')
+    return np.linspace(start, stop, int(n)+1)

@@ -51,5 +51,39 @@ def test3():
                 y = pd.DataFrame(x.copy()).sort_values(list(p), ascending=asc).values
                 assert np.array_equal(x, y), (p, asc, x, y)
 
+def est4():                                                       
+    a = np.array([[[3, 4, 2, 4],
+        [3, 1, 2, 2],
+        [3, 4, 3, 2]],
+
+       [[3, 1, 3, 1],
+        [3, 4, 0, 3],
+        [1, 4, 3, 0]]])
+
+    assert np.array_equal(sort(a), [[[3, 1, 2, 2],
+        [3, 4, 2, 4],
+        [3, 4, 3, 2]],
+
+       [[1, 4, 3, 0],
+        [3, 1, 3, 1],
+        [3, 4, 0, 3]]])
+
+    assert np.array_equal(sort(a, by=[2,1]), [[[3, 1, 2, 2],
+        [3, 4, 2, 4],
+        [3, 4, 3, 2]],
+
+       [[3, 4, 0, 3],
+        [3, 1, 3, 1],
+        [1, 4, 3, 0]]])
+
+    assert np.array_equal(sort(a, by=[2,1], ascending=[False, True]), 
+       np.array([[[3, 4, 3, 2],
+        [3, 1, 2, 2],
+        [3, 4, 2, 4]],
+
+       [[3, 1, 3, 1],
+        [1, 4, 3, 0],
+        [3, 4, 0, 3]]]))
+
 if __name__ == "__main__":
     pytest.main(["-s", __file__])  # + '::test7'])
