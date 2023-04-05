@@ -150,7 +150,7 @@ def sort(a, by=None, axis=0, ascending=True):
             u[:, to_negate] *= -1
     return u
 
-def irange(start, stop, step):
+def irange(start, stop, step=1):
     n = (stop-start)/step
     if abs(int(n) - n) > 1e-6:
         raise ValueError('(stop-start) must be divisible by step')
