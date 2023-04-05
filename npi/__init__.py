@@ -26,7 +26,9 @@ def argmax(a):
 
 def T(x):
     x = np.array(x)
-    if x.ndim == 1:
+    if x.ndim == 0:
+        return x
+    elif x.ndim == 1:
         return x[:, None]
     elif x.ndim == 2:
         if x.shape[1] == 1:
