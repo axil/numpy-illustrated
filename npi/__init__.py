@@ -153,6 +153,11 @@ def sort(a, by=None, axis=0, ascending=True):
     return u
 
 def irange(start, stop, step=1):
+    if all(isinstance(arg, int) for arg in (start, stop, step)):
+        if step > 0:
+            return np.arange(start, stop+1, step)
+        else:
+            return np.arange(start, stop-1, step)
     n = (stop-start)/step
     if abs(int(n) - n) > 1e-6:
         raise ValueError('(stop-start) must be divisible by step')
