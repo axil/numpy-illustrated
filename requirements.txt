@@ -1,0 +1,3 @@
+﻿numpy
+#pytest-mock      # for tests
+#coverage-badge
