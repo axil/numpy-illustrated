@@ -8,7 +8,27 @@ from numpy.compat import (
     pickle
     )
 
+__all__ = (
+  'argmin',
+  'argmax',
+  'T_',
+  'sort',
+  'savez',
+  'irange',
+)
+
 def argmin(a):
+    """
+    Returns the index of the minimum value.
+    The result is scalar in 1D case and tuple of indices in 2D and above.
+    If the maximum is encountered several times, returns the first match
+    in the C order (irrespectively of the order of the array itself).
+    E.g.: 
+    >>> argmin([4,3,5])
+    1
+    >>> argmin([[4,5,3], [3,4,5]])
+    (0, 2)
+    """
     if not isinstance(a, np.ndarray):
         a = np.array(a)
     if a.ndim > 1:
@@ -17,6 +37,17 @@ def argmin(a):
         return np.argmin(a)
 
 def argmax(a):
+    """
+    Returns the index of the maximum value.
+    The result is scalar in 1D case and tuple of indices in 2D and above.
+    If the maximum is encountered several times, returns the first match
+    in the C order (irrespectively of the order of the array itself).
+    E.g.: 
+    >>> argmax([4,5,3])
+    1
+    >>> argmax([[4,3,5], [5,4,3]])
+    (0, 2)
+    """
     if not isinstance(a, np.ndarray):
         a = np.array(a)
     if a.ndim > 1:
@@ -25,6 +56,19 @@ def argmax(a):
         return np.argmax(a)
 
 def T(x):
+    """
+    Returns a view of the array with axes transposed.
+    Behaves just like original T except it transposes 1D array to
+    a column-vector and vica versa. E.g.:
+    >>> T_(np.array([1,2,3]))
+    array([[1],
+           [2],
+           [3]])
+    >>> T_(np.array([[1],
+                     [2],
+                     [3]])
+    array([1, 2, 3]) 
+    """
     x = np.array(x)
     if x.ndim == 0:
         return x
@@ -38,6 +82,7 @@ def T(x):
     else:
         return np.swapaxes(x, x.ndim-2, x.ndim-1)
 
+T_ = T
 
 def zipfile_factory(file, *args, **kwargs):
     """
