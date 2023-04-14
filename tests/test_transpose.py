@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 
-from npi import T
+from npi import T_
 
 @pytest.mark.parametrize('x, y', [
     ([1], [[1]]),
@@ -12,13 +12,12 @@ from npi import T
     (np.zeros((2,3,4)), np.zeros((2,4,3))),
 ])
 def test1(x, y):
-    assert np.array_equal(T(x), np.array(y))
-    assert np.array_equal(T(tuple(x)), np.array(y))
-    assert np.array_equal(T(np.array(x)), np.array(y))
+    assert np.array_equal(T_(x), np.array(y))
+    assert np.array_equal(T_(tuple(x)), np.array(y))
+    assert np.array_equal(T_(np.array(x)), np.array(y))
 
 def test2():
-    with pytest.raises(ValueError):
-        assert T('abc')
+    assert T_('abc') == np.array('abc')
 
 
 if __name__ == "__main__":

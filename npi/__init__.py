@@ -55,7 +55,7 @@ def argmax(a):
     else:
         return np.argmax(a)
 
-def T(x):
+def T_(x):
     """
     Returns a view of the array with axes transposed.
     Behaves just like original T except it transposes 1D array to
@@ -82,7 +82,6 @@ def T(x):
     else:
         return np.swapaxes(x, x.ndim-2, x.ndim-1)
 
-T_ = T
 
 def zipfile_factory(file, *args, **kwargs):
     """
