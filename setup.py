@@ -16,12 +16,9 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     python_requires=">=3.7",
     install_requires=[
-        'pandas',
-        'bs4',              # for patch_series
-        'lxml',             # for bs4 
-        'IPython',          # for sidebyside
+        'numpy',
     ],
-    packages=['pdi'],
+    packages=['npi'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
