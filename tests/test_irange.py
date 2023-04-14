@@ -6,8 +6,8 @@ from npi import irange
 
 
 def test1():
-    assert np.array_equal(irange(1, 3), [1,2,3])
-    assert np.array_equal(irange(3, 1, -1), [3,2,1])
+    assert np.array_equal(irange(1, 3), [1, 2, 3])
+    assert np.array_equal(irange(3, 1, -1), [3, 2, 1])
     assert np.array_equal(irange(0, 1, 0.1), np.arange(0, 1.01, 0.1))
     assert np.allclose(irange(1, 0, -0.1), np.arange(1, -0.01, -0.1))
 
@@ -22,6 +22,8 @@ def test3():
 def test4():
     a = irange(-pi, pi, pi/100)
     assert len(a) == 201
+    assert isclose(a[0], -pi)
+    assert isclose(a[-1], pi)
     assert isclose(a[1]-a[0], pi/100)
 
 if __name__ == "__main__":
