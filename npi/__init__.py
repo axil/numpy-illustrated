@@ -23,7 +23,7 @@ def argmin(a):
     The result is scalar in 1D case and tuple of indices in 2D and above.
     If the maximum is encountered several times, returns the first match
     in the C order (irrespectively of the order of the array itself).
-    E.g.: 
+    E.g.:
     >>> argmin([4,3,5])
     1
     >>> argmin([[4,5,3], [3,4,5]])
@@ -42,7 +42,7 @@ def argmax(a):
     The result is scalar in 1D case and tuple of indices in 2D and above.
     If the maximum is encountered several times, returns the first match
     in the C order (irrespectively of the order of the array itself).
-    E.g.: 
+    E.g.:
     >>> argmax([4,5,3])
     1
     >>> argmax([[4,3,5], [5,4,3]])
@@ -67,7 +67,7 @@ def T_(x):
     >>> T_(np.array([[1],
                      [2],
                      [3]])
-    array([1, 2, 3]) 
+    array([1, 2, 3])
     """
     x = np.array(x)
     if x.ndim == 0:
@@ -105,7 +105,7 @@ class savez:
         self.allow_pickle = allow_pickle
         self.pickle_kwargs = pickle_kwargs
         self.idx = 0
-        
+
     def __enter__(self):
         if not hasattr(self.file, 'write'):
             self.file = os_fspath(self.file)
@@ -116,7 +116,7 @@ class savez:
             compression = zipfile.ZIP_DEFLATED
         else:
             compression = zipfile.ZIP_STORED
-            
+
         self.zipf = zipfile_factory(self.file, mode="w", compression=compression)
         return self
 
@@ -138,7 +138,7 @@ class savez:
                 np.lib.format.write_array(fid, val,
                                    allow_pickle=self.allow_pickle,
                                    pickle_kwargs=self.pickle_kwargs)
-        
+
     def __exit__(self, *args):
         self.zipf.close()
 
@@ -151,7 +151,7 @@ def sort(a, by=None, axis=0, ascending=True):
         order = None
     else:
         raise TypeError(f'Unsupported `by` type: {type(by)}')
-        
+
     if isinstance(ascending, (list, tuple, np.ndarray)):
         if len(ascending) == 1:
             asc = bool(ascending[0])
@@ -161,7 +161,7 @@ def sort(a, by=None, axis=0, ascending=True):
             raise ValueError(f'Length of `ascending`({len(ascending)}) != length of `by`({len(by)}).')
     elif isinstance(ascending, (bool, int)):
         asc = bool(ascending)
-        
+
     # invert columns
     a = np.array(a)
     if asc is False:
@@ -174,7 +174,7 @@ def sort(a, by=None, axis=0, ascending=True):
             if asc1 is False:
                 to_negate.append(field)
         a[:, to_negate] *= -1
-        
+
     # sort
     if a.ndim > 1:
         s = u2s(a)
@@ -185,7 +185,7 @@ def sort(a, by=None, axis=0, ascending=True):
         u = a
     else:
         pass
-    
+
     # invert columns back
     if asc is False:
         u *= -1
@@ -203,6 +203,6 @@ def irange(start, stop, step=1):
         else:
             return np.arange(start, stop-1, step)
     n = (stop-start)/step
-    if abs(int(n) - n) > 1e-6:
+    if abs(round(n) - n) > 1e-6:
         raise ValueError('(stop-start) must be divisible by step')
-    return np.linspace(start, stop, int(n)+1)
+    return np.linspace(start, stop, round(n)+1)

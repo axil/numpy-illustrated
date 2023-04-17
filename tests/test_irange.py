@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+from math import isclose, pi
 
 from npi import irange
 
@@ -18,6 +19,10 @@ def test3():
     with pytest.raises(ValueError):
         irange(0, 1, 0.3)
 
+def test4():
+    a = irange(-pi, pi, pi/100)
+    assert len(a) == 201
+    assert isclose(a[1]-a[0], pi/100)
+
 if __name__ == "__main__":
     pytest.main(["-s", __file__])  # + '::test7'])
-
