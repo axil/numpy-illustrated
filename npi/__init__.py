@@ -15,6 +15,7 @@ __all__ = (
     "sort",
     "savez",
     "irange",
+    "concat",
 )
 
 
@@ -60,10 +61,16 @@ def argmax(a):
 
 def T_(x):
     """
-    Returns a view of the array with axes transposed.
-    Behaves just like original T except it transposes 1D array to
-    a column-vector and vica versa. E.g.:
-    >>> T_(np.array([1,2,3]))
+    Returns a view of the array with axes transposed:
+      - transposes a matrix just like the original T;
+      - transposes 1D array to a 2D column-vector and vica versa;
+      - transposes (a less commonly used) 2D row-vector to a 2D column-vector;
+      - for 3D arrays and above swaps the last two dimensions.
+    E.g.:
+    >>> T_(np.array([[1, 2], [3, 4]]))
+    array([[1, 3],
+           [2, 4]])
+    >>> T_(np.array([1, 2, 3]))
     array([[1],
            [2],
            [3]])
@@ -71,6 +78,10 @@ def T_(x):
                      [2],
                      [3]])
     array([1, 2, 3])
+    >>> T_(np.array([[1, 2, 3]]))
+    array([[1],
+           [2],
+           [3]])
     """
     x = np.array(x)
     if x.ndim == 0:
@@ -102,6 +113,18 @@ def zipfile_factory(file, *args, **kwargs):
 
 
 class savez:
+    """
+    A context manager for saving a series of measurements step-by-step.
+    If an exception is encountered, gracefully closes the npz file.
+    For example the following code
+    >>> a1 = [1]; a2 = [2]; a3 = [3]
+    >>> with savez('a.npz', compress=True) as fout:
+    >>>     fout.write(a1=a1)
+    >>>     fout.write(a2=a2)
+    >>>     1/0
+    >>>     fout.write(a3=a3)
+    saves the arrays a1 and a2 to 'a.npz' and closes the file gracefully.
+    """
     def __init__(self, file, compress=False, allow_pickle=True, pickle_kwargs=None):
         # Import is postponed to here since zipfile depends on gzip, an optional
         # component of the so-called standard library.
@@ -150,7 +173,35 @@ class savez:
         self.zipf.close()
 
 
+class savez_compressed(savez):
+    def __init__(self, file, compress=True, allow_pickle=True, pickle_kwargs=None):
+        super().__init__(file, compress, allow_pickle, pickle_kwargs)
+
+
 def sort(a, by=None, axis=0, ascending=True):
+    """
+    Rearranges the rows so that the result is sorted by the specified columns
+    An extension of `sort` that allows:
+      - sorting by column(s)
+      - ascending and descending
+    
+    If by is a list [c1, c2, ..., cn], sorts by the column c1, resolving the ties using
+    the column c2, and so on until cn (just like in pandas). Unlike pandas, the columns
+    not present in the `by` argument are used for resolving the remaining ties in the 
+    left to right order.
+
+    `by=None` is the same as by=[0, 1, 2, ..., a.shape[-1]]
+
+    `ascending` can be either be a scalar or a list.
+    
+    For example:
+    >>>  sort([[1, 2, 3],
+               [3, 1, 5],
+               [1, 0, 6]])
+    array([[1, 0, 6],
+           [1, 2, 3],
+           [3, 1, 5]])
+    """
     if isinstance(by, (list, tuple)):
         order = [f"f{field}" for field in by]
     elif isinstance(by, int):
@@ -217,3 +268,5 @@ def irange(start, stop, step=1):
     if abs(int(n) - n) > 1e-6:
         raise ValueError("(stop-start) must be divisible by step")
     return np.linspace(start, stop, int(n) + 1)
+
+concat = np.concatenate
