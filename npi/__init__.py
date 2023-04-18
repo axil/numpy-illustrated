@@ -125,6 +125,7 @@ class savez:
     >>>     fout.write(a3=a3)
     saves the arrays a1 and a2 to 'a.npz' and closes the file gracefully.
     """
+
     def __init__(self, file, compress=False, allow_pickle=True, pickle_kwargs=None):
         # Import is postponed to here since zipfile depends on gzip, an optional
         # component of the so-called standard library.
@@ -184,16 +185,16 @@ def sort(a, by=None, axis=0, ascending=True):
     An extension of `sort` that allows:
       - sorting by column(s)
       - ascending and descending
-    
+
     If by is a list [c1, c2, ..., cn], sorts by the column c1, resolving the ties using
     the column c2, and so on until cn (just like in pandas). Unlike pandas, the columns
-    not present in the `by` argument are used for resolving the remaining ties in the 
+    not present in the `by` argument are used for resolving the remaining ties in the
     left to right order.
 
     `by=None` is the same as by=[0, 1, 2, ..., a.shape[-1]]
 
     `ascending` can be either be a scalar or a list.
-    
+
     For example:
     >>>  sort([[1, 2, 3],
                [3, 1, 5],
@@ -268,5 +269,6 @@ def irange(start, stop, step=1):
     if abs(int(n) - n) > 1e-6:
         raise ValueError("(stop-start) must be divisible by step")
     return np.linspace(start, stop, int(n) + 1)
+
 
 concat = np.concatenate
