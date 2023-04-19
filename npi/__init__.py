@@ -240,7 +240,7 @@ def sort(a, by=None, axis=0, ascending=True):
         for field, asc1 in zip(by, asc):
             if asc1 is False:
                 to_negate.append(field)
-        a[:, to_negate] *= -1
+        a[..., to_negate] *= -1
 
     # sort
     if a.ndim > 1:
@@ -260,7 +260,7 @@ def sort(a, by=None, axis=0, ascending=True):
         pass
     else:
         if to_negate:
-            u[:, to_negate] *= -1
+            u[..., to_negate] *= -1
     return u
 
 

@@ -47,6 +47,24 @@ def test0b():
     )
 
 
+def test0c():
+    a = np.array(
+        [
+            [[2, 2, 1, 4], [0, 3, 3, 2], [2, 3, 4, 0]],
+            [[3, 4, 4, 2], [3, 0, 0, 3], [2, 1, 0, 4]],
+        ]
+    )
+    assert np.array_equal(
+        sort(a, by=[0, 1], ascending=[True, False]),
+        np.array(
+            [
+                [[0, 3, 3, 2], [2, 3, 4, 0], [2, 2, 1, 4]],
+                [[2, 1, 0, 4], [3, 4, 4, 2], [3, 0, 0, 3]],
+            ]
+        ),
+    )
+
+
 def test1():
     a = np.array(
         [
@@ -177,4 +195,5 @@ def est4():
 
 
 if __name__ == "__main__":
+    #    pytest.main(["-s", "-x", __file__])  # + '::test7'])
     pytest.main(["-s", __file__])  # + '::test7'])
