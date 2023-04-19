@@ -11,6 +11,42 @@ def test0():
     assert np.array_equal(sort([1, 3, 5, 2], ascending=False), np.array([5, 3, 2, 1]))
 
 
+def test0a():
+    assert np.array_equal(
+        sort([[3, 4], [2, 7], [1, 5], [2, 4]], by=[1, 0]),
+        np.array(
+            [
+                [2, 4],
+                [3, 4],
+                [1, 5],
+                [2, 7],
+            ]
+        ),
+    )
+
+
+def test0b():
+    a = np.array(
+        [
+            [1, 2, 3, 2],
+            [0, 3, 1, 2],
+            [2, 1, 3, 4],
+            [1, 1, 1, 2],
+        ]
+    )
+    assert np.array_equal(
+        sort(a, by=[0, 1], ascending=[True, False]),
+        np.array(
+            [
+                [0, 3, 1, 2],
+                [1, 2, 3, 2],
+                [1, 1, 1, 2],
+                [2, 1, 3, 4],
+            ]
+        ),
+    )
+
+
 def test1():
     a = np.array(
         [
