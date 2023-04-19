@@ -14,6 +14,7 @@ __all__ = (
     "T_",
     "sort",
     "savez",
+    "savez_compressed",
     "irange",
     "concat",
 )
@@ -259,16 +260,22 @@ def sort(a, by=None, axis=0, ascending=True):
     return u
 
 
-def irange(start, stop, step=1):
+def irange(start, stop, step=1, tol=1e-6):
+    """
+    Returns an evenly spaced array from start to stop inclusively.
+    If the range `stop-start` is not evenly divisible by step (=if the calculated number 
+    of steps is further from the nearest integer than `tol`), raises a ValueError 
+    exception.
+    """
     if all(isinstance(arg, int) for arg in (start, stop, step)):
         if step > 0:
             return np.arange(start, stop + 1, step)
         else:
             return np.arange(start, stop - 1, step)
     n = (stop - start) / step
-    if abs(int(n) - n) > 1e-6:
+    if abs(round(n) - n) > 1e-6:
         raise ValueError("(stop-start) must be divisible by step")
-    return np.linspace(start, stop, int(n) + 1)
+    return np.linspace(start, stop, round(n) + 1)
 
 
 concat = np.concatenate
