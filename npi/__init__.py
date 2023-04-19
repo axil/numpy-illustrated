@@ -115,6 +115,7 @@ def zipfile_factory(file, *args, **kwargs):
 
 class savez:
     """
+    Effectively makes npz files appendable.
     A context manager for saving a series of measurements step-by-step.
     If an exception is encountered, gracefully closes the npz file.
     For example the following code
@@ -176,6 +177,9 @@ class savez:
 
 
 class savez_compressed(savez):
+    """
+    Same context manager as savez with compression enabled by default.
+    """
     def __init__(self, file, compress=True, allow_pickle=True, pickle_kwargs=None):
         super().__init__(file, compress, allow_pickle, pickle_kwargs)
 
