@@ -11,6 +11,8 @@ from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pick
 __all__ = (
     "argmin",
     "argmax",
+    "nanargmin",
+    "nanargmax",
     "T_",
     "sort",
     "savez",
@@ -58,6 +60,46 @@ def argmax(a):
         return np.unravel_index(np.argmax(a), a.shape)
     else:
         return np.argmax(a)
+
+
+def nanargmin(a):
+    """
+    Returns the index of the minimum value.
+    The result is scalar in 1D case and tuple of indices in 2D and above.
+    If the maximum is encountered several times, returns the first match
+    in the C order (irrespectively of the order of the array itself).
+    E.g.:
+    >>> nanargmin([4,3,nan])
+    1
+    >>> nanargmin([[4,8,5], [9,3,1]])
+    (1, 2)
+    """
+    if not isinstance(a, np.ndarray):
+        a = np.array(a)
+    if a.ndim > 1:
+        return np.unravel_index(np.nanargmin(a), a.shape)
+    else:
+        return np.nanargmin(a)
+
+
+def nanargmax(a):
+    """
+    Returns the index of the maximum value.
+    The result is scalar in 1D case and tuple of indices in 2D and above.
+    If the maximum is encountered several times, returns the first match
+    in the C order (irrespectively of the order of the array itself).
+    E.g.:
+    >>> nanargmax([nan,5,3])
+    1
+    >>> nanargmax([[4,3,5], [5,nan,3]])
+    (0, 2)
+    """
+    if not isinstance(a, np.ndarray):
+        a = np.array(a)
+    if a.ndim > 1:
+        return np.unravel_index(np.nanargmax(a), a.shape)
+    else:
+        return np.nanargmax(a)
 
 
 def T_(x):
