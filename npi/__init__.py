@@ -260,7 +260,7 @@ def sort(a, by=None, axis=0, ascending=True):
     return u
 
 
-def irange(start, stop, step=1, tol=1e-6):
+def irange(start, stop, step=1, dtype=None, tol=1e-6):
     """
     Returns an evenly spaced array from start to stop inclusively.
     If the range `stop-start` is not evenly divisible by step (=if the calculated number 
@@ -269,13 +269,13 @@ def irange(start, stop, step=1, tol=1e-6):
     """
     if all(isinstance(arg, int) for arg in (start, stop, step)):
         if step > 0:
-            return np.arange(start, stop + 1, step)
+            return np.arange(start, stop + 1, step, dtype=dtype)
         else:
-            return np.arange(start, stop - 1, step)
+            return np.arange(start, stop - 1, step, dtype=dtype)
     n = (stop - start) / step
     if abs(round(n) - n) > 1e-6:
         raise ValueError("(stop-start) must be divisible by step")
-    return np.linspace(start, stop, round(n) + 1)
+    return np.linspace(start, stop, round(n) + 1, dtype=dtype)
 
 
 concat = np.concatenate
