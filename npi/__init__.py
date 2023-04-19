@@ -29,8 +29,8 @@ def argmin(a):
     E.g.:
     >>> argmin([4,3,5])
     1
-    >>> argmin([[4,5,3], [3,4,5]])
-    (0, 2)
+    >>> argmin([[4,8,5], [9,3,1]])
+    (1, 2)
     """
     if not isinstance(a, np.ndarray):
         a = np.array(a)
