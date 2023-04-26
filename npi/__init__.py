@@ -8,6 +8,14 @@ from itertools import permutations, product
 import numpy as np
 from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pickle
 
+from .ndfind6 import find
+from .first_above2 import first_above
+#try:    
+#except:
+#    from .pyfind import find
+
+from .pyfind import first_nonzero
+
 __all__ = (
     "argmin",
     "argmax",
@@ -19,6 +27,9 @@ __all__ = (
     "savez_compressed",
     "irange",
     "concat",
+    "find",
+    "first_above",
+    "first_nonzero", 
 )
 
 
@@ -325,3 +336,4 @@ def irange(start, stop, step=1, dtype=None, tol=1e-6):
 
 
 concat = np.concatenate
+
