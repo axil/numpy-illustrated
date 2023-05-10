@@ -15,7 +15,12 @@ except ImportError:
     from .pyfind import find, first_above, first_nonzero
     # print('using pyfind (python)')
 
+__version__ = '0.2'
+
 __all__ = (
+    "find",
+    "first_above",
+    "first_nonzero", 
     "argmin",
     "argmax",
     "nanargmin",
@@ -26,9 +31,6 @@ __all__ = (
     "savez_compressed",
     "irange",
     "concat",
-    "find",
-    "first_above",
-    "first_nonzero", 
 )
 
 
@@ -150,90 +152,6 @@ def T_(x):
         return np.swapaxes(x, x.ndim - 2, x.ndim - 1)
 
 
-def zipfile_factory(file, *args, **kwargs):
-    """
-    Create a ZipFile.
-    Allows for Zip64, and the `file` argument can accept file, str, or
-    pathlib.Path objects. `args` and `kwargs` are passed to the zipfile.ZipFile
-    constructor.
-    """
-    if not hasattr(file, "read"):
-        file = os_fspath(file)
-    import zipfile
-
-    kwargs["allowZip64"] = True
-    return zipfile.ZipFile(file, *args, **kwargs)
-
-
-class savez:
-    """
-    Effectively makes npz files appendable.
-    A context manager for saving a series of measurements step-by-step.
-    If an exception is encountered, gracefully closes the npz file.
-    For example the following code
-    >>> a1 = [1]; a2 = [2]; a3 = [3]
-    >>> with savez('a.npz', compress=True) as fout:
-    >>>     fout.write(a1=a1)
-    >>>     fout.write(a2=a2)
-    >>>     1/0
-    >>>     fout.write(a3=a3)
-    saves the arrays a1 and a2 to 'a.npz' and closes the file gracefully.
-    """
-
-    def __init__(self, file, compress=False, allow_pickle=True, pickle_kwargs=None):
-        # Import is postponed to here since zipfile depends on gzip, an optional
-        # component of the so-called standard library.
-        self.file = file
-        self.compress = compress
-        self.allow_pickle = allow_pickle
-        self.pickle_kwargs = pickle_kwargs
-        self.idx = 0
-
-    def __enter__(self):
-        if not hasattr(self.file, "write"):
-            self.file = os_fspath(self.file)
-            if not self.file.endswith(".npz"):
-                self.file = self.file + ".npz"
-
-        if self.compress:
-            compression = zipfile.ZIP_DEFLATED
-        else:
-            compression = zipfile.ZIP_STORED
-
-        self.zipf = zipfile_factory(self.file, mode="w", compression=compression)
-        return self
-
-    def write(self, *args, **kwargs):
-        namedict = kwargs
-        for i, val in enumerate(args, start=self.idx):
-            key = "arr_%d" % i
-            if key in namedict.keys():
-                raise ValueError("Cannot use un-named variables and keyword %s" % key)
-            namedict[key] = val
-        self.idx += i + 1
-
-        for key, val in namedict.items():
-            fname = key + ".npy"
-            val = np.asanyarray(val)
-            # always force zip64, gh-10776
-            with self.zipf.open(fname, "w", force_zip64=True) as fid:
-                np.lib.format.write_array(
-                    fid,
-                    val,
-                    allow_pickle=self.allow_pickle,
-                    pickle_kwargs=self.pickle_kwargs,
-                )
-
-    def __exit__(self, *args):
-        self.zipf.close()
-
-
-class savez_compressed(savez):
-    """
-    Same context manager as savez with compression enabled by default.
-    """
-    def __init__(self, file, compress=True, allow_pickle=True, pickle_kwargs=None):
-        super().__init__(file, compress, allow_pickle, pickle_kwargs)
 
 
 def sort(a, by=None, axis=0, ascending=True):
@@ -335,4 +253,3 @@ def irange(start, stop, step=1, dtype=None, tol=1e-6):
 
 
 concat = np.concatenate
-

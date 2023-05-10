@@ -7,7 +7,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='numpy-illustrated',
-    version='0.1',
+    version='0.2',
     author='Lev Maximov',
     author_email='lev.maximov@gmail.com',
     url='https://github.com/axil/numpy-illustrated',
@@ -23,7 +23,6 @@ setuptools.setup(
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',    
         'Programming Language :: Python :: 3.10',    
@@ -31,5 +30,5 @@ setuptools.setup(
     ],
     license='MIT License',
     zip_safe=False,
-    keywords=['find', 'argmin', 'argmax', 'sort', 'irange', 'savez', 'numpy'],
+    keywords=['find', 'argmin', 'argmax', 'sort', 'irange', 'numpy', 'first_above', 'first_nonzero'],
 )
