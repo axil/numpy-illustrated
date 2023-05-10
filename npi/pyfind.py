@@ -196,9 +196,13 @@ def first_above(a, v, sorted=False, missing=-1, raises=False):
 
     Parameters
     ----------
-    a : 1-D array_like
     v : scalar
-    
+   `a` : 1-D array_like  
+   `v` : scalar
+   `sorted` : use bisection to further accelerate the search. Only works for sorted arrays.
+   `missing` : the value to return if no element in `a` is greater than `v`
+   `raises` : if `True` return an exception instead of returning anything    
+
     For example,
     >>> first_above([4, 5, 8, 2, 7], 6)
     2 
