@@ -8,13 +8,12 @@ from itertools import permutations, product
 import numpy as np
 from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pickle
 
-from .ndfind6 import find
-from .first_above2 import first_above
-#try:    
-#except:
-#    from .pyfind import find
-
-from .pyfind import first_nonzero
+try:
+    from ndfind import find, first_above, first_nonzero
+    # print('using ndfind (cython)')
+except ImportError:
+    from .pyfind import find, first_above, first_nonzero
+    # print('using pyfind (python)')
 
 __all__ = (
     "argmin",
