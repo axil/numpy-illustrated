@@ -24,27 +24,29 @@ Faster version written in cython is packaged separately in a library called `ndf
 If this library is installed with `pip install ndfind` (binaries are provided for python 3.8 .. 3.11 under 
 Windows, Linux and MacOS), the accelerated versions of the functions are used.
 
-Four functions act just same as np.argmin, np.argmax, etc., but returns tuple in 2D and above:
-    - argmin 
-    - argmax
-    - nanargmin
-    - nanargmax
+Four functions act just same as np.argmin, np.argmax, etc., but returns tuple in 2D and above:  
 
-Alternative transpose function that converts 1D (row) vector into 2D column vector and back again:
-    - T_(a)
+ - `argmin`  
+ - `argmax`
+ - `nanargmin`  
+ - `nanargmax`
 
-Sort function that is able to sort by selected column(s) in ascending/descending order (like sort_values in Pandas):
-    - sort
+Alternative transpose function that converts 1D (row) vector into 2D column vector and back again:  
+  - `T_(a)`
 
-An inclusive range:
-    - irange
+Sort function that is able to sort by selected column(s) in ascending/descending order (like sort_values in Pandas):  
+  - `sort`
+
+An inclusive range:  
+  - `irange`
 
 An alias to concatenate:
-    - concat
+  - `concat`
 
 ## Documentation
 
-- `find(a, v, rtol=1e-05, atol=1e-08, sorted=False, default=-1, raises=False)`
+- `find(a, v, rtol=1e-05, atol=1e-08, sorted=False, default=-1, raises=False)`  
+
 Returns the index of the first element in `a` equal to `v`.
 If either a or v (or both) is of floating type, the parameters
 `atol` (absolute tolerance) and `rtol` (relative tolerance) 
@@ -77,6 +79,7 @@ For example,
 ```
 
 - `first_above(a, v, sorted=False, missing=-1, raises=False)`
+
 Returns the index of the first element in `a` strictly greater than `v`.
 If either a or v (or both) is of floating type, the parameters
 `atol` (absolute tolerance) and `rtol` (relative tolerance) 
@@ -88,10 +91,12 @@ row-major, C-style order.
 If there is no value in `a` greater than `v`, returns the `default` value 
 (-1 by default) or raises a `ValueError` if `raises=True`.
 
-Parameters
-----------
-a : 1-D array_like
-v : scalar
+Parameters:  
+`a` : 1-D array_like  
+`v` : scalar
+`sorted` : use bisection to further accelerate the search. Only works for sorted arrays.
+`missing` : the value to return if no element in `a` is greater than `v`
+`raises` : if `True` return an exception instead of returning anything
 
 For example,
 ```python
@@ -104,6 +109,7 @@ For example,
 ```
 
 -  `first_nonzero(a, missing=-1, raises=False)`
+
 Returns the index of the first nonzero element in `a`.
 
 In 2D and above the the values in `a` are always tested and returned in
@@ -120,6 +126,7 @@ For example,
 ```
 
 - `argmin(a)`
+
 Returns the index of the minimum value.
 The result is scalar in 1D case and tuple of indices in 2D and above.
 If the maximum is encountered several times, returns the first match
@@ -133,6 +140,7 @@ E.g.:
 ```
 
 - `argmax(a)`
+
 Returns the index of the maximum value.
 The result is scalar in 1D case and tuple of indices in 2D and above.
 If the maximum is encountered several times, returns the first match
@@ -146,6 +154,7 @@ E.g.:
 ```
 
 - `nanargmin(a)`
+
 Returns the index of the minimum value.
 The result is scalar in 1D case and tuple of indices in 2D and above.
 If the maximum is encountered several times, returns the first match
@@ -159,6 +168,7 @@ E.g.:
 ```
 
 - `nanargmax(a)`
+
 Returns the index of the maximum value.
 The result is scalar in 1D case and tuple of indices in 2D and above.
 If the maximum is encountered several times, returns the first match
@@ -172,6 +182,7 @@ E.g.:
 ```
 
 - `T_(x)`
+
 Returns a view of the array with axes transposed:
   - transposes a matrix just like the original T;
   - transposes 1D array to a 2D column-vector and vica versa;
