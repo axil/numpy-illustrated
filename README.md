@@ -15,16 +15,22 @@ This repo contains code for a number of helper functions mentioned in the [NumPy
 
 ## Contents
 
-Search functions that return immediately after finding the requested value resulting in a 1000x and more speedup for huge arrays:
-    - find
-    - first_above
-    - first_nonzero
-In this library those three are written in pure python/numpy for better portability.
-Faster version written in cython is packaged separately in a library called `ndfind`.
-If this library is installed with `pip install ndfind` (binaries are provided for python 3.8 .. 3.11 under 
-Windows, Linux and MacOS), the accelerated versions of the functions are used.
+Three search functions that return immediately after finding the requested value resulting in a 1000x and more speedup for huge arrays:
 
-Four functions act just same as np.argmin, np.argmax, etc., but returns tuple in 2D and above:  
+  - `find`
+  - `first_above`
+  - `first_nonzero`
+    
+For better portability, in this library only the pure python/numpy implementation is provided (no speedup).
+The actual cython accelerated code is packaged separately in a library called `ndfind`.
+If this library is installed with `pip install ndfind` (binaries are provided for python 3.8 .. 3.11 under 
+Windows, Linux and MacOS), the faster versions of the functions are used when calling `npi.find`, etc.
+
+If either the array or the value to be found is of floating type, the floating point comparison with relative 
+and absolute tolerances is used.
+
+The next four functions act just like `np.argmin`, `np.argmax`, etc., but return a tuple rather than a scalar 
+in 2D and above:  
 
  - `argmin`  
  - `argmax`
