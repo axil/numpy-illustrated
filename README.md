@@ -216,9 +216,7 @@ E.g.:
 - `sort(a, by=None, axis=0, ascending=True)`
 
 Rearranges the rows so that the result is sorted by the specified columns
-An extension of `sort` that allows:
-  - sorting by column(s)
-  - ascending and descending
+An extension of `sort` that allows sorting by column(s), ascending and descending.
 
 If by is a list [c1, c2, ..., cn], sorts by the column c1, resolving the ties using
 the column c2, and so on until cn (just like in pandas). Unlike pandas, the columns
