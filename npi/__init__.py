@@ -254,5 +254,3 @@ def irange(start, stop, step=1, dtype=None, tol=1e-6, raises=True):
         else:
             return np.arange(start, stop, step)
     return np.linspace(start, stop, round(n) + 1, dtype=dtype)
-
-concat = np.concatenate
