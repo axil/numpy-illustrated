@@ -21,6 +21,7 @@ def test2():
 def test3():
     with pytest.raises(ValueError):
         irange(0, 1, 0.3)
+    assert np.allclose(irange(0, 1, 0.3, raises=False), [0, 0.3, 0.6, 0.9])
 
 def test4():
     a = irange(-pi, pi, pi/100)

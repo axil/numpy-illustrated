@@ -234,12 +234,13 @@ def sort(a, by=None, axis=0, ascending=True):
     return u
 
 
-def irange(start, stop, step=1, dtype=None, tol=1e-6):
+def irange(start, stop, step=1, dtype=None, tol=1e-6, raises=True):
     """
-    Returns an evenly spaced array from start to stop inclusively.
-    If the range `stop-start` is not evenly divisible by step (=if the calculated number 
-    of steps is further from the nearest integer than `tol`), raises a ValueError 
-    exception.
+    Returns an evenly spaced array from `start` to `stop` inclusively.
+    If the range `stop-start` is not evenly divisible by `step` (= if the calculated number 
+    of steps is further from the nearest integer than `tol`):
+      - raises a ValueError exception if `raises` is True, or
+      - delegates to `np.arange` otherwise.
     """
     if all(isinstance(arg, int) for arg in (start, stop, step)):
         if step > 0:
@@ -247,9 +248,11 @@ def irange(start, stop, step=1, dtype=None, tol=1e-6):
         else:
             return np.arange(start, stop - 1, step, dtype=dtype)
     n = (stop - start) / step
-    if abs(round(n) - n) > 1e-6:
-        raise ValueError("(stop-start) must be divisible by step")
+    if abs(round(n) - n) > tol:
+        if raises is True:
+            raise ValueError("(stop-start) must be divisible by step")
+        else:
+            return np.arange(start, stop, step)
     return np.linspace(start, stop, round(n) + 1, dtype=dtype)
-
 
 concat = np.concatenate
