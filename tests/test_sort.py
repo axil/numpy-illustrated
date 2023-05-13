@@ -127,7 +127,7 @@ def test3():
                 assert np.array_equal(x, y), (p, asc, x, y)
 
 
-def est4():
+def test4():
     a = np.array(
         [
             [

@@ -10,27 +10,26 @@ from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pick
 
 try:
     from ndfind import find, first_above, first_nonzero
+
     # print('using ndfind (cython)')
 except ImportError:
     from .pyfind import find, first_above, first_nonzero
+
     # print('using pyfind (python)')
 
-__version__ = '0.2'
+__version__ = "0.3"
 
 __all__ = (
-    "find",
-    "first_above",
-    "first_nonzero", 
     "argmin",
     "argmax",
     "nanargmin",
     "nanargmax",
     "T_",
     "sort",
-    "savez",
-    "savez_compressed",
     "irange",
-    "concat",
+    "find",
+    "first_above",
+    "first_nonzero",
 )
 
 
@@ -152,8 +151,6 @@ def T_(x):
         return np.swapaxes(x, x.ndim - 2, x.ndim - 1)
 
 
-
-
 def sort(a, by=None, axis=0, ascending=True):
     """
     Rearranges the rows so that the result is sorted by the specified columns
@@ -237,7 +234,7 @@ def sort(a, by=None, axis=0, ascending=True):
 def irange(start, stop, step=1, dtype=None, tol=1e-6, raises=True):
     """
     Returns an evenly spaced array from `start` to `stop` inclusively.
-    If the range `stop-start` is not evenly divisible by `step` (= if the calculated number 
+    If the range `stop-start` is not evenly divisible by `step` (= if the calculated number
     of steps is further from the nearest integer than `tol`):
       - raises a ValueError exception if `raises` is True, or
       - delegates to `np.arange` otherwise.
