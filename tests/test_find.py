@@ -86,17 +86,33 @@ def test_int_float():
 
 
 def test_datatypes():
-    for a_type in (complex, float, int, bool):
-        for v_type in (complex, float, int, bool):
+    for a_type in (complex, float, int):
+        for v_type in (complex, float, int):
             a = np.array([0, 1, 2, 1], dtype=a_type)
             v = v_type(1)
             assert find(a, v) == 1
+            v = v_type(3)
+            assert find(a, v) == -1
 
-    for a_type in (float, int, bool):
-        for v_type in (float, int, bool):
+    for a_type in (float, int):
+        for v_type in (float, int):
             a = np.array([0, 1, 2, 3], dtype=a_type)
             v = v_type(1)
             assert find(a, v, sorted=True) == 1
+            v = v_type(4)
+            assert find(a, v, sorted=True) == -1
+
+    assert find([1., 2., 3.], np.inf) == -1
+    assert find([1., 2., 3.], np.inf, sorted=True) == -1
+    
+    assert find([1., 2., 3.], np.nan) == -1
+    assert find([1., 2., 3.], np.nan, sorted=True) == -1
+
+
+    assert find([False, False, True, False, True], True) == 2
+    assert find([False, False, True, False, True], False) == 0
+    assert find([False, False], True) == -1
+    assert find([True, True], False) == -1
 
     for a_type in (complex, float, int):
         for v_type in (complex, float, int):
@@ -124,9 +140,7 @@ def test_datatypes():
     assert find(np.array([D(1), D(2), D(3)]), D(2)) == 1
     assert find(np.array([D(1), D(2), D(3)]), D(2), sorted=True) == 1
 
-
-def test_mixed_types():
-    assert find(np.array([1, 2, 3], dtype=np.uint8), np.int32(1000)) == -1
+    assert find(np.array([[1, 2], [3, np.nan], [np.nan, 4]]), np.nan) == (1, 1)
 
 
 def test_float16():
@@ -166,7 +180,6 @@ def test_special_floats():
 
 def test_special_complex():
     a = np.array([0.0, 2j, np.nan, np.inf, np.inf, np.NINF, np.nan, np.NZERO, np.PZERO])
-    a
     assert find(a, np.NZERO) == 0
     assert find(a, np.PZERO) == 0
     assert find(a, 0.0) == 0
@@ -190,13 +203,20 @@ def test_special_datetime():
 
 
 def test_mixed_types():
+    assert find(np.array([1, 2, 3], dtype=np.uint8), np.int32(1000)) == -1
+    assert find(np.array([1, 2, 3], dtype=np.uint8), np.int32(1000), sorted=True) == -1
+    
     a = np.array([D(1), D(2), D(3)])
     assert find(a, 2.0) == 1
     assert find(a, 2.00000001) == -1
+    assert find(a, 2.0, sorted=True) == 1
+    assert find(a, 2.00000001, sorted=True) == -1
 
     a = np.array([1, 2, 3])
     assert find(a, 2.0) == 1
     assert find(a, 2.000000001) == 1
+    assert find(a, 2.0, sorted=True) == 1
+    assert find(a, 2.000000001, sorted=True) == 1
 
     a = np.array([D(1), D(2), D(3)])
     assert find(a, np.nan) == -1
@@ -214,5 +234,6 @@ def test_signed_unsigned():
 
 
 if __name__ == "__main__":
+#    test_special_complex()
     pytest.main(["-s", "-x", __file__])  # + '::test7'])
-    # pytest.main(["-s", __file__])  # + '::test7'])
+#    pytest.main(["-s", __file__  + '::test_special_complex'])

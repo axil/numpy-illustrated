@@ -32,15 +32,8 @@ def _generic_float_find(a, v, sorted=False):
         i = np.searchsorted(a, v)
         if i == a.shape[0]:
             return -1
-        elif np.isnan(v):
-            if np.isnan(a[i]):
-                return i
-            else:
-                return -1
-        elif a[i] == v:
+        elif np.isnan(v) or a[i] == v:
             return i
-        else:
-            return -1
     else:
         if np.isnan(v):
             indices = np.where(np.isnan(a))
@@ -50,7 +43,7 @@ def _generic_float_find(a, v, sorted=False):
             if a.ndim == 1:
                 return indices[0][0]
             else:
-                return next(zip(*np.where(a == v)))
+                return next(zip(*indices))
         else:
             return -1
 
