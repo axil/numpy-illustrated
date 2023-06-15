@@ -218,7 +218,7 @@ def sort(a, by=None, axis=0, ascending=True):
         a.sort()
         u = a
     else:
-        pass
+        u = a
 
     # invert columns back
     if asc is False:

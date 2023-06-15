@@ -11,6 +11,36 @@ def test0():
     assert np.array_equal(sort([1, 3, 5, 2], ascending=False), np.array([5, 3, 2, 1]))
 
 
+def test0_by_int():
+    assert np.array_equal(
+        sort(
+            [
+                [8, 4],
+                [5, 1],
+                [7, 6],
+                [2, 4],
+                [3, 7],
+            ],
+            by=1,
+        ),
+        np.array([[5, 1], [2, 4], [8, 4], [7, 6], [3, 7]]),
+    )
+
+
+def test0_by_str():
+    with pytest.raises(TypeError):
+        sort(
+            [
+                [8, 4],
+                [5, 1],
+                [7, 6],
+                [2, 4],
+                [3, 7],
+            ],
+            by="1",
+        )
+
+
 def test0a():
     assert np.array_equal(
         sort([[3, 4], [2, 7], [1, 5], [2, 4]], by=[1, 0]),
@@ -45,6 +75,8 @@ def test0b():
             ]
         ),
     )
+    with pytest.raises(ValueError):
+        sort(a, by=[0, 1], ascending=[True, False, True])
 
 
 def test0c():
@@ -192,6 +224,10 @@ def test4():
             ]
         ),
     )
+
+
+def test_0d():
+    assert np.array_equal(sort(np.int32(10)), np.int32(10))
 
 
 if __name__ == "__main__":

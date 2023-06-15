@@ -102,12 +102,11 @@ def test_datatypes():
             v = v_type(4)
             assert find(a, v, sorted=True) == -1
 
-    assert find([1., 2., 3.], np.inf) == -1
-    assert find([1., 2., 3.], np.inf, sorted=True) == -1
-    
-    assert find([1., 2., 3.], np.nan) == -1
-    assert find([1., 2., 3.], np.nan, sorted=True) == -1
+    assert find([1.0, 2.0, 3.0], np.inf) == -1
+    assert find([1.0, 2.0, 3.0], np.inf, sorted=True) == -1
 
+    assert find([1.0, 2.0, 3.0], np.nan) == -1
+    assert find([1.0, 2.0, 3.0], np.nan, sorted=True) == -1
 
     assert find([False, False, True, False, True], True) == 2
     assert find([False, False, True, False, True], False) == 0
@@ -134,8 +133,9 @@ def test_datatypes():
     assert find(np.array(["a", "bb", "ccc"]), "bb") == 1
 
     a = np.arange(np.datetime64("2023-01-20"), np.datetime64("2023-01-23"))
-    a
     assert find(a, np.datetime64("2023-01-22")) == 2
+    with pytest.raises(ValueError):
+        find(a, 22)
 
     assert find(np.array([D(1), D(2), D(3)]), D(2)) == 1
     assert find(np.array([D(1), D(2), D(3)]), D(2), sorted=True) == 1
@@ -205,7 +205,7 @@ def test_special_datetime():
 def test_mixed_types():
     assert find(np.array([1, 2, 3], dtype=np.uint8), np.int32(1000)) == -1
     assert find(np.array([1, 2, 3], dtype=np.uint8), np.int32(1000), sorted=True) == -1
-    
+
     a = np.array([D(1), D(2), D(3)])
     assert find(a, 2.0) == 1
     assert find(a, 2.00000001) == -1
@@ -223,6 +223,8 @@ def test_mixed_types():
 
     a = np.array([D(1), D(2), D(3), np.nan])
     assert find(a, np.nan) == 3
+    with pytest.raises(ValueError):
+        find(a, np.nan, sorted=True)
 
 
 def test_signed_unsigned():
@@ -233,7 +235,17 @@ def test_signed_unsigned():
     assert find(np.array([2**64 - 1], np.uint64), np.int64(-1)) == -1
 
 
+def test_sorted_ndarray():
+    with pytest.raises(ValueError):
+        find([[1, 2], [3, 4]], 3, sorted=True)
+
+
+def test_raises():
+    with pytest.raises(ValueError):
+        find([1, 2, 3], 4, raises=True)
+
+
 if __name__ == "__main__":
-#    test_special_complex()
+    #    test_special_complex()
     pytest.main(["-s", "-x", __file__])  # + '::test7'])
 #    pytest.main(["-s", __file__  + '::test_special_complex'])

@@ -153,6 +153,11 @@ def test_mixed():
             assert first_above(np.array([2, 3, 5], dtype=t1), t2(-1)) == 0
 
 
+def test_ndarray():
+    with pytest.raises(ValueError):
+        first_above([[1, 2], [3, 4]], 5)
+
+
 if __name__ == "__main__":
     pytest.main(["-s", "-x", __file__])  # + '::test7'])
     # pytest.main(["-s", __file__])  # + '::test7'])

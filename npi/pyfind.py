@@ -54,7 +54,9 @@ def _nan_find(a, sorted=False):
     v is nan
     """
     if sorted:
-        raise ValueError("`sorted=True` optimization does not work when v is NaN")
+        raise ValueError(
+            "`sorted=True` optimization does not work when v is NaN and a.dtype==object"
+        )
     for i, ai in enumerate(a):
         if isinstance(ai, (float, np.datetime64)) and np.isnan(ai):
             return i
@@ -146,7 +148,7 @@ def find(a, v, rtol=1e-05, atol=1e-08, sorted=False, default=-1, raises=False):
     elif np.issubdtype(a.dtype, np.datetime64):
         if not isinstance(v, np.datetime64):
             raise ValueError(
-                f"Incompatible data types of a({type(a)}) and v({type(v)})"
+                f"Incompatible data types of a ({a.dtype}) and v ({type(v)})"
             )
         datetime_mode = True
     elif isinstance(v, (float, np.datetime64)) and np.isnan(v):
