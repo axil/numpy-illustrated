@@ -3,7 +3,7 @@
 [![pypi](https://img.shields.io/pypi/v/numpy-illustrated.svg)](https://pypi.python.org/pypi/numpy-illustrated)
 [![python](https://img.shields.io/pypi/pyversions/numpy-illustrated.svg)](https://pypi.org/project/numpy-illustrated/)
 ![pytest](https://github.com/axil/numpy-illustrated/actions/workflows/pytest.yml/badge.svg)
-![Coverage Badge](img/coverage.svg)
+![Coverage Badge](https://github.com/axil/numpy-illustrated/raw/master/img/coverage.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License](https://img.shields.io/pypi/l/numpy-illustrated)](https://pypi.org/project/numpy-illustrated/)
 
