@@ -1,4 +1,4 @@
-﻿# numpy-illustrated
+# numpy-illustrated
 
 [![pypi](https://img.shields.io/pypi/v/numpy-illustrated.svg)](https://pypi.python.org/pypi/numpy-illustrated)
 [![python](https://img.shields.io/pypi/pyversions/numpy-illustrated.svg)](https://pypi.org/project/numpy-illustrated/)
