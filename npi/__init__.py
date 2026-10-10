@@ -1,9 +1,7 @@
-import zipfile
 from numpy.lib.recfunctions import (
     unstructured_to_structured as u2s,
     structured_to_unstructured as s2u,
 )
-from itertools import permutations, product
 
 import numpy as np
 
