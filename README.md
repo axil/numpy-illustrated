@@ -13,6 +13,10 @@ This repo contains code for a number of helper functions mentioned in the [NumPy
 
     pip install numpy-illustrated
 
+Supports Python 3.7 and newer with a compatible NumPy release, including NumPy
+1.x and 2.x. CI tests NumPy 1.26.4 explicitly and the latest stable NumPy on
+Python 3.12–3.14.
+
 ## Contents
 
 Three search functions that return immediately after finding the requested value resulting in a 1000x and more speedup for huge arrays:

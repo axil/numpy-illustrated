@@ -6,7 +6,6 @@ from numpy.lib.recfunctions import (
 from itertools import permutations, product
 
 import numpy as np
-from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pickle
 
 try:
     from ndfind import find, first_above, first_nonzero
