@@ -1,12 +1,9 @@
-import zipfile
 from numpy.lib.recfunctions import (
     unstructured_to_structured as u2s,
     structured_to_unstructured as s2u,
 )
-from itertools import permutations, product
 
 import numpy as np
-from numpy.compat import asbytes, asstr, asunicode, os_fspath, os_PathLike, pickle
 
 try:
     from ndfind import find, first_above, first_nonzero
@@ -17,7 +14,7 @@ except ImportError:
 
     # print('using pyfind (python)')
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 __all__ = (
     "argmin",

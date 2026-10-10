@@ -154,52 +154,52 @@ def test_float16():
 
 def test_special_floats():
     a = np.array(
-        [0.0, 2.0, np.nan, np.inf, np.inf, np.NINF, np.nan, np.NZERO, np.PZERO]
+        [0.0, 2.0, np.nan, np.inf, np.inf, -np.inf, np.nan, -0.0, 0.0]
     )
     a
-    assert find(a, np.NZERO) == 0
-    assert find(a, np.PZERO) == 0
+    assert find(a, -0.0) == 0
+    assert find(a, 0.0) == 0
     assert find(a, 0.0) == 0
     assert find(a, np.nan) == 2
     assert find(a, np.inf) == 3
-    assert find(a, np.NINF) == 5
+    assert find(a, -np.inf) == 5
     a.sort()
-    assert find(a, np.NINF) == 0
+    assert find(a, -np.inf) == 0
     assert find(a, np.inf) == 5
     assert find(a, np.nan) == 7
-    assert find(a, np.NZERO) == 1
-    assert find(a, np.PZERO) == 1
+    assert find(a, -0.0) == 1
     assert find(a, 0.0) == 1
-    assert find(a, np.NZERO, sorted=True) == 1
-    assert find(a, np.PZERO, sorted=True) == 1
+    assert find(a, 0.0) == 1
+    assert find(a, -0.0, sorted=True) == 1
     assert find(a, 0.0, sorted=True) == 1
-    assert find(a, np.NINF, sorted=True) == 0
+    assert find(a, 0.0, sorted=True) == 1
+    assert find(a, -np.inf, sorted=True) == 0
     assert find(a, np.inf, sorted=True) == 5
     assert find(a, np.nan, sorted=True) == 7
 
 
 def test_special_complex():
-    a = np.array([0.0, 2j, np.nan, np.inf, np.inf, np.NINF, np.nan, np.NZERO, np.PZERO])
-    assert find(a, np.NZERO) == 0
-    assert find(a, np.PZERO) == 0
+    a = np.array([0.0, 2j, np.nan, np.inf, np.inf, -np.inf, np.nan, -0.0, 0.0])
+    assert find(a, -0.0) == 0
+    assert find(a, 0.0) == 0
     assert find(a, 0.0) == 0
     assert find(a, np.nan) == 2
     assert find(a, np.inf) == 3
-    assert find(a, np.NINF) == 5
+    assert find(a, -np.inf) == 5
     a.sort()
-    assert find(a, np.NINF) == 0
+    assert find(a, -np.inf) == 0
     assert find(a, np.inf) == 5
     assert find(a, np.nan) == 7
-    assert find(a, np.NZERO) == 1
-    assert find(a, np.PZERO) == 1
+    assert find(a, -0.0) == 1
+    assert find(a, 0.0) == 1
     assert find(a, 0.0) == 1
 
 
 def test_special_datetime():
     a = np.arange(np.datetime64("2023-01-20"), np.datetime64("2023-01-23"))
-    a1 = np.hstack([a, np.datetime64("nat"), a, np.datetime64("nat"), a])
-    find(a, np.datetime64("nat")) == -1
-    find(a1, np.datetime64("nat")) == 3
+    a1 = np.hstack([a, np.datetime64("nat", "D"), a, np.datetime64("nat", "D"), a])
+    assert find(a, np.datetime64("nat", "D")) == -1
+    assert find(a1, np.datetime64("nat", "D")) == 3
 
 
 def test_mixed_types():
